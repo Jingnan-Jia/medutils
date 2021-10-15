@@ -1,0 +1,5 @@
+pingouin
+SimpleITK
+scipy
+numpy
+pandas
