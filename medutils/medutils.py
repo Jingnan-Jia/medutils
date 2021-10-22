@@ -287,9 +287,11 @@ def save_itk(filename, scan, origin, spacing, dtype='int16'):
     # numpy array is reversed after convertion from image, but origin and spacing keep unchanged
     stk.SetSpacing(spacing[::-1])
 
-    writer = sitk.ImageFileWriter()
-    writer.SetFileName(filename)
-    writer.Execute(stk)
+    sitk.WriteImage(stk, filename, useCompression=True)
+
+    # writer = sitk.ImageFileWriter()
+    # writer.SetFileName(filename)
+    # writer.Execute(stk)
 
 
 # %%
