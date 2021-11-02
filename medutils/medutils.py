@@ -159,10 +159,10 @@ def get_ct_pair_filenames(gdth_path, pred_path):
     if len(pred_files) == 0:
         raise Exception('predicted files are None, Please check the directories: ', pred_path)
 
-    if any(['fissure' in file for file in pred_files]):  # check no fissure files are included
-        fissure_gdth, fissure_pred = get_fissure_filenames(gdth_path, pred_path)
-        gdth_files = set(gdth_files) - set(fissure_gdth)
-        pred_files = set(pred_files) - set(fissure_pred)
+    # if any(['fissure' in file for file in pred_files]):  # check no fissure files are included
+    #     fissure_gdth, fissure_pred = get_fissure_filenames(gdth_path, pred_path)
+    #     gdth_files = set(gdth_files) - set(fissure_gdth)
+    #     pred_files = set(pred_files) - set(fissure_pred)
     gdth_files, pred_files = get_intersection_files(gdth_files, pred_files)
 
     return gdth_files, pred_files
@@ -228,11 +228,11 @@ def get_intersection_files(gdth_files, pred_files):
     return sorted(new_gdth_files), sorted(new_pred_files)
 
 
-def get_gdth_pred_names(gdth_path, pred_path, fissure=False, fissureradius=1):
-    if fissure:
-        gdth_files, pred_files = get_fissure_filenames(gdth_path, pred_path, fissureradius=fissureradius)
-    else:
-        gdth_files, pred_files = get_ct_pair_filenames(gdth_path, pred_path)
+def get_gdth_pred_names(gdth_path, pred_path):
+    # if fissure:
+    #     gdth_files, pred_files = get_fissure_filenames(gdth_path, pred_path, fissureradius=fissureradius)
+    # else:
+    gdth_files, pred_files = get_ct_pair_filenames(gdth_path, pred_path)
 
     return gdth_files, pred_files
 
