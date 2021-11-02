@@ -141,7 +141,7 @@ def get_all_ct_names(path, number=None, prefix=None, name_suffix=None):
 
     scan_files = sorted(files)
     if len(scan_files) == 0:
-        raise Exception('Scan files are None, please check the data directory')
+        raise Exception(f'Scan files are None, please check the data directory: {path}')
     if isinstance(number, int) and number != 0:
         scan_files = scan_files[:number]
     elif isinstance(number, list):  # number = [3,7]
@@ -155,9 +155,9 @@ def get_ct_pair_filenames(gdth_path, pred_path):
     pred_files = get_all_ct_names(pred_path)
 
     if len(gdth_files) == 0:
-        raise Exception('ground truth files  are None, Please check the directories', gdth_path)
+        raise Exception('ground truth files  are None, Please check the directories: ', gdth_path)
     if len(pred_files) == 0:
-        raise Exception(' predicted files are None, Please check the directories', pred_path)
+        raise Exception('predicted files are None, Please check the directories: ', pred_path)
 
     if any(['fissure' in file for file in pred_files]):  # check no fissure files are included
         fissure_gdth, fissure_pred = get_fissure_filenames(gdth_path, pred_path)
@@ -173,7 +173,8 @@ def recall(seg, gt):
     im2 = np.asarray(gt > 0).astype(np.bool)
 
     if im1.shape != im2.shape:
-        raise ValueError("Shape mismatch: im1 and im2 must have the same shape.")
+        raise ValueError(f"Shape mismatch: im1 and im2 must have the same shape, but the im1.shape is {im1.shape} and "
+                         f"im2.shape is {im2.shape}")
 
     intersection = np.logical_and(im1, im2).astype(float)
 
