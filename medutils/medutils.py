@@ -288,6 +288,9 @@ def save_itk(filename, scan, origin, spacing, dtype='int16'):
     :param dtype: 'int16' default
     :return: None
     """
+    dir = os.path.dirname(filename)
+    if not os.path.exists(dir):  # create dir if not exist
+        os.makedirs(dir)
     stk = sitk.GetImageFromArray(scan.astype(dtype))
     # origin and spacing 's coordinate are (z,y,x). but for image class,
     # the order shuld be (x,y,z), that's why we reverse the order here.
