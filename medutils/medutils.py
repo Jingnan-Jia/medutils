@@ -137,8 +137,8 @@ def get_all_ct_names(path, number=None, prefix=None, suffix=None, extension=None
     elif suffix:
 
         files = glob.glob(path + '/' + "*" + suffix + extension_list[0])
-        for suffix in extension_list[1:]:
-            files.extend(glob.glob(path + '/' + "*" + suffix + suffix))
+        for ext in extension_list[1:]:
+            files.extend(glob.glob(path + '/' + "*" + suffix + ext))
 
     else:
         files = glob.glob(path + '/*' + extension_list[0])
@@ -255,7 +255,7 @@ def load_itk(filename, require_ori_sp=False):
         itkimage = sitk.ReadImage(filename)
 
     else:
-        raise FileNotFoundError("image" + filename+ " was not found")
+        raise FileNotFoundError(filename+ " was not found")
 
     # Convert the image to a  numpy array first ands then shuffle the dimensions to get axis in the order z,y,x
     ct_scan = sitk.GetArrayFromImage(itkimage)
