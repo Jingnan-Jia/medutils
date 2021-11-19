@@ -115,28 +115,36 @@ def flip_axis(x, axis):
     return x
 
 
-def get_all_ct_names(path, number=None, prefix=None, name_suffix=None):
-    suffix_list = [".nrrd", ".mhd", ".mha", ".nii", ".nii.gz"]  # todo: more suffix
-
-    if prefix and name_suffix:
-        files = glob.glob(path + '/' + prefix + "*" + name_suffix + suffix_list[0])
-        for suffix in suffix_list[1:]:
-            files.extend(glob.glob(path + '/' + prefix + "*" + name_suffix + suffix))
-    elif prefix:
-        files = glob.glob(path + '/' + prefix + "*" + suffix_list[0])
-        for suffix in suffix_list[1:]:
-            files.extend(glob.glob(path + '/' + prefix + "*" + suffix))
-    elif name_suffix:
-        if 'SSc' in path:
-            files = glob.glob(path + '/*/' + "*" + name_suffix + '.mha')
+def get_all_ct_names(path, number=None, prefix=None, suffix=None, extension=None):
+    if extension is None:
+        extension_list = [".nrrd", ".mhd", ".mha", ".nii", ".nii.gz"]  # todo: more suffix
+    else:
+        if type(extension) is list and type(extension[0]) is str:
+            extension_list = extension
+        elif type(extension) is str:
+            extension_list = [extension]
         else:
-            files = glob.glob(path + '/' + "*" + name_suffix + suffix_list[0])
-            for suffix in suffix_list[1:]:
-                files.extend(glob.glob(path + '/' + "*" + name_suffix + suffix))
+            raise Exception('the extension type is wrong. Please use a string or a list of string.')
+
+    if prefix and suffix:
+        files = glob.glob(path + '/' + prefix + "*" + suffix + extension_list[0])
+        for suffix in extension_list[1:]:
+            files.extend(glob.glob(path + '/' + prefix + "*" + suffix + suffix))
+    elif prefix:
+        files = glob.glob(path + '/' + prefix + "*" + extension_list[0])
+        for suffix in extension_list[1:]:
+            files.extend(glob.glob(path + '/' + prefix + "*" + suffix))
+    elif suffix:
+        if 'SSc' in path:
+            files = glob.glob(path + '/*/' + "*" + suffix + '.mha')
+        else:
+            files = glob.glob(path + '/' + "*" + suffix + extension_list[0])
+            for suffix in extension_list[1:]:
+                files.extend(glob.glob(path + '/' + "*" + suffix + suffix))
 
     else:
-        files = glob.glob(path + '/*' + suffix_list[0])
-        for suffix in suffix_list[1:]:
+        files = glob.glob(path + '/*' + extension_list[0])
+        for suffix in extension_list[1:]:
             files.extend(glob.glob(path + '/*' + suffix))
 
     scan_files = sorted(files)
@@ -269,7 +277,6 @@ def load_itk(filename, require_ori_sp=False):
         return ct_scan
     
 
-# %%
 def save_itk(filename, scan, origin, spacing, dtype='int16'):
     """
     Save a array to itk file.
@@ -295,7 +302,6 @@ def save_itk(filename, scan, origin, spacing, dtype='int16'):
     # writer.Execute(stk)
 
 
-# %%
 def normalize(image, min_=-1000.0, max_=400.0):
     """
     Set the values to [0~1].
