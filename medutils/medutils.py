@@ -135,12 +135,10 @@ def get_all_ct_names(path, number=None, prefix=None, suffix=None, extension=None
         for suffix in extension_list[1:]:
             files.extend(glob.glob(path + '/' + prefix + "*" + suffix))
     elif suffix:
-        if 'SSc' in path:
-            files = glob.glob(path + '/*/' + "*" + suffix + '.mha')
-        else:
-            files = glob.glob(path + '/' + "*" + suffix + extension_list[0])
-            for suffix in extension_list[1:]:
-                files.extend(glob.glob(path + '/' + "*" + suffix + suffix))
+
+        files = glob.glob(path + '/' + "*" + suffix + extension_list[0])
+        for suffix in extension_list[1:]:
+            files.extend(glob.glob(path + '/' + "*" + suffix + suffix))
 
     else:
         files = glob.glob(path + '/*' + extension_list[0])

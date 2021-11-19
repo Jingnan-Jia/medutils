@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="medutils", # Replace with your own username
-    version="0.1.17",
+    version="0.1.18",
     author="Jingnan",
     author_email="jiajingnan2222@gmail.com",
     description="A package of common utilities for medical images segmentation.",
