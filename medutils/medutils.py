@@ -116,7 +116,8 @@ def flip_axis(x, axis):
 
 
 def get_all_ct_names(path, number=None, prefix=None, suffix=None, extension=None):
-    path = Path(path).absolute()
+    if '~' == path[0]:  # like "~/Desktop"
+        path = os.path.expanduser(path)
     if extension is None:
         extension_list = [".nrrd", ".mhd", ".mha", ".nii", ".nii.gz"]  # todo: more suffix
     else:
