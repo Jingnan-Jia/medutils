@@ -10,7 +10,7 @@ import csv
 import glob
 import os
 import threading
-
+from pathlib import Path
 import SimpleITK as sitk
 import numpy as np
 import pandas as pd
@@ -116,6 +116,7 @@ def flip_axis(x, axis):
 
 
 def get_all_ct_names(path, number=None, prefix=None, suffix=None, extension=None):
+    path = Path(path).absolute()
     if extension is None:
         extension_list = [".nrrd", ".mhd", ".mha", ".nii", ".nii.gz"]  # todo: more suffix
     else:
